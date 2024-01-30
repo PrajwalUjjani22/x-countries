@@ -2,16 +2,28 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 import "./App.css";
+import axios from "axios";
 
 function App() {
   const [countries, setCountries] = useState([]);
 
-  useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all")
-      .then((res) => res.json())
-      .then((data) => setCountries(data))
-      .catch((err) => console.error("Error fetching data: ", err));
+  useEffect( () => {
+    getCountries()
+      
   }, []);
+
+  const getCountries = async ()=>{
+
+    try{
+      const res = await axios.get("https://restcountries.com/v3.1/all")
+      setCountries(res.data)
+      return res.data
+
+    }catch(e){
+      console.error(("Error fetching data: ", e))
+    }
+
+  }
 
   const imageStyle = {
     width: "100px",
